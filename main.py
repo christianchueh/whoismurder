@@ -13,3 +13,17 @@ async def home_get():
 @app.head("/")
 async def home_head():
     return None  # HEAD 請求依照 HTTP 規範本來就不需要回傳內容，給個空值即可
+
+
+# ─── 3. 用同一個事件循環啟動 ───
+async def main():
+
+    config = uvicorn.Config(app, host="0.0.0.0", port=10000, log_level="info")
+    server = uvicorn.Server(config)
+
+    await asyncio.gather(
+        server.serve(),
+    )
+
+if __name__ == "__main__":
+    asyncio.run(main())
