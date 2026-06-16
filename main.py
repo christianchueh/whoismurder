@@ -134,7 +134,7 @@ async def check_win_condition(ctx, eliminated):
 
     game["players"].remove(eliminated)
     game["voted_users"].clear()
-    
+   
     if len(game["players"]) <= 2:
         undercover_mem = ctx.guild.get_member(game["undercover_id"])
         await ctx.send(f"😈 **【臥底獲勝！】** 臥底 {undercover_mem.mention} 活到了最後！")
