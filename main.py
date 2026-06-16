@@ -52,3 +52,32 @@ async def sign_up(ctx):
         f"✅ {ctx.author.mention} 報名成功！"
         f"目前房間總人數：{len(game['players'])} 人"
     )
+    
+# ─── 3. 核心雙通道併發異步啟動 ───
+
+async def main():
+    TOKEN = os.getenv("DISCORD_TOKEN")
+
+    if not TOKEN:
+        print("❌ 錯誤：找不到環境變數 DISCORD_TOKEN")
+        return
+
+    config = uvicorn.Config(
+        app,
+        host="0.0.0.0",
+        port=10000,
+        log_level="info"
+    )
+
+    server = uvicorn.Server(config)
+
+    # 網頁監聽與機器人同時運作
+    # 相容 Render 平台檢測，確保 24H 不休眠斷線
+    await asyncio.gather(
+        server.serve(),
+        bot.start(TOKEN)
+    )
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
