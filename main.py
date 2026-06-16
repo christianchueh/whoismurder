@@ -1,6 +1,5 @@
 
 import google.generativeai as genai
-from google.colab import userdata
 import os
 api_keys = os.getenv('DISCORD_TOKEN')
 
